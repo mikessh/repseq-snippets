@@ -12,6 +12,8 @@ df$dEnd = df$dEnd - df$cdr3Start
 df$jStart = df$jStart - df$cdr3Start
 df$cdr3Start = NULL
 
+df = df[,.(count = sum(count), freq = sum(freq)), by = c("cdr3nt", "cdr3aa", "v", "d", "j", "vEnd", "dStart", "dEnd", "jStart")][order(-count)]
+
 setcolorder(df, c("count", "freq", "cdr3nt", "cdr3aa", "v", "d", "j", "vEnd", "dStart", "dEnd", "jStart"))
 
 fwrite(df, file = args[1], quote = F, sep = "\t", row.names = F)
