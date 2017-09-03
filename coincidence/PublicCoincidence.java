@@ -32,6 +32,8 @@ public class PublicCoincidence {
 
         br.readLine(); // skip header
 
+        System.out.println("[" + (new Date()).toString() + "] Reading in pooled clonotypes");
+
         while ((line = br.readLine()) != null) {
             String[] splitLine = line.split("\t");
 
