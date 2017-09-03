@@ -25,6 +25,7 @@ public class PublicCoincidence {
         // Read the list of public clonotypes
 
         Map<String, ClonotypeInfo> incidenceMap = new HashMap<>();
+        Map<Integer, Long> incidenceCounts = new HashMap<>();
 
         BufferedReader br = new BufferedReader(new FileReader(inputPublicListFileName));
         String line;
@@ -34,10 +35,27 @@ public class PublicCoincidence {
         while ((line = br.readLine()) != null) {
             String[] splitLine = line.split("\t");
 
+            int incidence = Integer.parseInt(splitLine[INCIDENCE_COL]);
+
+            Long count = incidenceCounts.get(incidence);
+            if (count == null) {
+              count = 0L;
+            }
+            incidenceCounts.put(incidence, count + 1L);
+
             // Only add clonotypes with incidence/samples > threshold, e.g. 5%-10% of population
-            if (Integer.parseInt(splitLine[INCIDENCE_COL]) > incidenceRatioThreshold * nSamples) {
+            if (incidence > incidenceRatioThreshold * nSamples) {
                 incidenceMap.put(splitLine[CDR3AA_COL],
                         new ClonotypeInfo(splitLine[V_COL], splitLine[J_COL], new BitSet(nSamples)));
+            }
+        }
+
+        // Write incidence histogram
+
+        try (PrintWriter pw = new PrintWriter(outputFilePrefix + ".incidence.hist.txt")) {
+            pw.println("incidence\tcount");
+            for (Map.Entry<Integer, Long> entry : incidenceCounts.entrySet()) {
+              pw.println(entry.getKey() + "\t" + entry.getValue());
             }
         }
 
