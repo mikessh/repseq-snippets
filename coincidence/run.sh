@@ -11,4 +11,4 @@ SP=`readlink -f hip.pool.txt`
 # freq threshold for publics, P&log10 odds threshold for association - comma-separated
 # file with pooled clonotypes, incl incidence count
 
-java -Xmx100G -cp coincidence/ PublicCoincidence 0.05,0.001,0.3 "$SP" "$SS" hip_assoc
+java -Xmx200G -cp coincidence/ PublicCoincidence 0.1,0.001,0.3 "$SP" "$SS" hip_assoc

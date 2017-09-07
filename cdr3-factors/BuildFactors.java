@@ -39,7 +39,7 @@ public class BuildFactors {
                 int reads = Integer.parseInt(splitLine[READS_COL]);
 
                 for (int j = 0; j < len; j++) {
-                    String signature = len + "\t" + j + "\t" + cdr3aa.charAt(i);
+                    String signature = len + "\t" + j + "\t" + cdr3aa.charAt(j);
                     Counter counter = sampleTable.computeIfAbsent(signature, k -> new Counter());
                     counter.reads += reads;
                     counter.unique++;
